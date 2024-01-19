@@ -10,8 +10,8 @@ int main(int argc, char** argv){
         std::cout << "usage: warehouse <config_path>" << std::endl;
         return 0;
     }
-    string configurationFile = argv[1];
-    WareHouse wareHouse(configurationFile);
+    string configurationFile = argv[1]; // Path
+    WareHouse wareHouse(configurationFile); // Constructor
     wareHouse.start();
     if(backup!=nullptr){
     	delete backup;

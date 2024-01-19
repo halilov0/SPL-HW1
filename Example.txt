@@ -1,0 +1,2 @@
+customer Ron civilian 2 1  
+customer Idan civilian 3 2 
