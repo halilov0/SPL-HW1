@@ -1,3 +1,4 @@
+#pragma once
 #include "Order.h"
 
 Order::Order(int Id, int CustomerId, int Distance) : id(Id), customerId(CustomerId), distance(Distance),
