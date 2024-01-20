@@ -9,6 +9,7 @@ using std::vector;
 class Customer {
     public:
         Customer(int id, const string &name, int locationDistance, int maxOrders);
+        Customer(Customer* cus);
         const string &getName() const;
         int getId() const;
         int getCustomerDistance() const;
@@ -19,6 +20,7 @@ class Customer {
         int addOrder(int orderId); //return OrderId if order was added successfully, -1 otherwise
 
         virtual Customer *clone() const = 0; // Return a copy of the customer
+        //virtual void operator=(const &Customer other);
 
         
     private:

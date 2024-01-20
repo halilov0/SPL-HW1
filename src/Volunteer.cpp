@@ -1,3 +1,4 @@
+#pragma once
 #include "Volunteer.h"
 
 Volunteer::Volunteer(int Id, const string &Name) : id(Id), name(Name), activeOrderId(NO_ORDER), completedOrderId(NO_ORDER){}
