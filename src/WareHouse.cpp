@@ -23,13 +23,14 @@ WareHouse::WareHouse(const string &configFilePath)
 
             if(v[0] == "customer")
             {
-                if(v[2] == "soldier"){     
+                if(v[2] == "soldier")
+                {     
                     Customer *temp = new SoldierCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
                     customers.push_back(temp);
                     customerCounter = customerCounter + 1;
                 }
-
-                else if(v[2] == "civilian"){
+                else if(v[2] == "civilian")
+                {
                     Customer *temp = new CivilianCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
                     customers.push_back(temp);
                     customerCounter = customerCounter + 1;
@@ -40,7 +41,8 @@ WareHouse::WareHouse(const string &configFilePath)
     }   
 }
 
-void WareHouse::start(){
+void WareHouse::start()
+{
     isOpen = true;
     cout << "Warehouse is open!" << endl; 
 }
