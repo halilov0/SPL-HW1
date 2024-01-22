@@ -10,6 +10,7 @@ using std::vector;
 class Volunteer {
     public:
         Volunteer(int id, const string &name);
+        Volunteer(Volunteer* vol);
         int getId() const;
         const string &getName() const;
         int getActiveOrderId() const;
@@ -39,6 +40,7 @@ class CollectorVolunteer: public Volunteer {
 
     public:
         CollectorVolunteer(int id, const string &name, int coolDown);
+        CollectorVolunteer(const CollectorVolunteer& cVol);
         CollectorVolunteer *clone() const override;
         void step() override;
         int getCoolDown() const;
