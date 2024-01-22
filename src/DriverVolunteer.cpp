@@ -3,7 +3,7 @@
 
 DriverVolunteer::DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep) : Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
 
-DriverVolunteer::DriverVolunteer(const DriverVolunteer& dVol) : Volunteer(dVol.getId(), dVol.getName()), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
+DriverVolunteer::DriverVolunteer(const DriverVolunteer& dVol) : Volunteer(dVol.getId(), dVol.getName()), maxDistance(dVol.maxDistance), distancePerStep(dVol.distancePerStep) {}
 
 DriverVolunteer* DriverVolunteer::clone() const
 {
@@ -44,8 +44,7 @@ bool DriverVolunteer::canTakeOrder(const Order &order) const
 
 void DriverVolunteer::acceptOrder(const Order &order)
 {
-    distranceLeft = order.getDistance();
-    ordersLeft--;
+    distanceLeft = order.getDistance();
 }
 
 string DriverVolunteer::toString() const
@@ -54,7 +53,7 @@ string DriverVolunteer::toString() const
 }
 
 
-LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep), maxOrders(MaxOrders) {}
+LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : DriverVolunteer(id, name, MaxDistance, DistancePerStep), maxOrders(MaxOrders) {}
 
 LimitedDriverVolunteer::LimitedDriverVolunteer(const LimitedDriverVolunteer& dVol) : DriverVolunteer(dVol.getId(), dVol.getName(), dVol.getMaxDistance(), dVol.getDistancePerStep()), maxOrders(dVol.maxOrders) {}
 
@@ -70,23 +69,18 @@ bool LimitedDriverVolunteer::hasOrdersLeft() const
 
 bool LimitedDriverVolunteer::canTakeOrder(const Order &order) const
 {
-    return hasOrdersLeft() && order.getDistance() < maxDistance;
+    return hasOrdersLeft() && order.getDistance() < getMaxDistance();
 }
 
 void LimitedDriverVolunteer::acceptOrder(const Order &order)
 {
-    distranceLeft = order.getDistance();
+    DriverVolunteer::acceptOrder(order);
     ordersLeft--;
 }
 
 int LimitedDriverVolunteer::getMaxOrders() const
 {
     return maxOrders;
-}
-
-int LimitedDriverVolunteer::getDistancePerStep() const
-{
-    return distancePerStep;
 }
 
 string LimitedDriverVolunteer::toString() const

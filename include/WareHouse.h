@@ -22,6 +22,7 @@ class WareHouse {
         Volunteer &getVolunteer(int volunteerId) const;
         Order &getOrder(int orderId) const;
         const vector<BaseAction*> &getActions() const;
+        int getOrdersCounter() const;
         //const vector<Volunteer*>& getVolunteers();
         //const vector<Customers*>& getVolunteers();
         void close();
@@ -37,5 +38,5 @@ class WareHouse {
         vector<Customer*> customers;
         int customerCounter; //For assigning unique customer IDs
         int volunteerCounter; //For assigning unique volunteer IDs
-                    
+        int ordersCounter;
 };
