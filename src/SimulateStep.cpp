@@ -7,12 +7,14 @@ SimulateStep::SimulateStep(int NumOfSteps) : numOfSteps(NumOfSteps) {}
 
 void SimulateStep::act(WareHouse &wareHouse)
 {
-    for (int i = 0; i < wareHouse.getActions().size(); i++)
+    for (int i = 0; i < wareHouse.getPendingOrders().size(); i++)
     {
-        if (wareHouse.getOrder(i).getStatus() == OrderStatus::PENDING)
-        {
-            for (int j = 0; j < wareHouse)
-        }
+        //We will not use getOrder(ID) because the ID regards to ordersCounter which can refer to an order that is not on pending-order list
+        //if (wareHouse.getPendingOrders().get == OrderStatus::PENDING)
+        //{
+        //    for (int j = 0; j < wareHouse)
+        //}
+        
     }
 }
 

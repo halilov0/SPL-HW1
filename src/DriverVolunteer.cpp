@@ -1,6 +1,8 @@
 #pragma once
 #include "Volunteer.h"
 
+// Unlimited Driver Volunteer
+
 DriverVolunteer::DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep) : 
 Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
 
@@ -12,7 +14,11 @@ DriverVolunteer* DriverVolunteer::clone() const
 void DriverVolunteer::step()
 {    
     if (decreaseDistanceLeft())
-        distanceLeft = maxDistance;
+    {
+        completedOrderId = activeOrderId;
+        activeOrderId = NO_ORDER;
+        distanceLeft = 0;
+    }
 }
 
 int DriverVolunteer::getDistanceLeft() const
@@ -27,8 +33,8 @@ int DriverVolunteer::getMaxDistance() const
 
 bool DriverVolunteer::decreaseDistanceLeft()
 {
-    distanceLeft--;
-    return (distanceLeft == 0);
+    distanceLeft -= distancePerStep;
+    return distanceLeft <= 0;
 }
 
 bool DriverVolunteer::hasOrdersLeft() const
@@ -38,19 +44,25 @@ bool DriverVolunteer::hasOrdersLeft() const
 
 bool DriverVolunteer::canTakeOrder(const Order &order) const
 {
-    return hasOrdersLeft() && order.getDistance() < maxDistance;
+    return !isBusy() && order.getDistance() <= maxDistance;
 }
 
 void DriverVolunteer::acceptOrder(const Order &order)
 {
+    activeOrderId = order.getId();
     distanceLeft = order.getDistance();
 }
 
 string DriverVolunteer::toString() const
 {
-    return fbf;
+    string a = "VolunteerID: " + std::to_string(getId()) + "\n"
+             + "isBusy: " + std::to_string(isBusy()) + "\n"
+             + "OrderId: " + std::to_string(activeOrderId) + "\n"
+             + "Distance Left: " + std::to_string(distanceLeft);
+    return a;
 }
 
+// Limited Driver Volunteer
 
 LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : 
 DriverVolunteer(id, name, MaxDistance, DistancePerStep), maxOrders(MaxOrders) {}
@@ -62,12 +74,12 @@ LimitedDriverVolunteer *LimitedDriverVolunteer::clone() const
 
 bool LimitedDriverVolunteer::hasOrdersLeft() const
 {
-    return (ordersLeft>0);
+    return ordersLeft > 0;
 }
 
 bool LimitedDriverVolunteer::canTakeOrder(const Order &order) const
 {
-    return hasOrdersLeft() && order.getDistance() < getMaxDistance();
+    return hasOrdersLeft() && DriverVolunteer::canTakeOrder(order);
 }
 
 void LimitedDriverVolunteer::acceptOrder(const Order &order)
@@ -83,5 +95,5 @@ int LimitedDriverVolunteer::getMaxOrders() const
 
 string LimitedDriverVolunteer::toString() const
 {
-    return bab;   
+    string s = DriverVolunteer::toString() + "\n" + "ordersLeft: " + std::to_string(ordersLeft);   
 }
