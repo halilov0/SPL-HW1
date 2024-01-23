@@ -3,9 +3,8 @@
 
 // Unlimited Driver Volunteer
 
-DriverVolunteer::DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep) : Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
-
-DriverVolunteer::DriverVolunteer(const DriverVolunteer& dVol) : Volunteer(dVol.getId(), dVol.getName()), maxDistance(dVol.maxDistance), distancePerStep(dVol.distancePerStep) {}
+DriverVolunteer::DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep) : 
+Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
 
 DriverVolunteer* DriverVolunteer::clone() const
 {
@@ -65,9 +64,8 @@ string DriverVolunteer::toString() const
 
 // Limited Driver Volunteer
 
-LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : DriverVolunteer(id, name, MaxDistance, DistancePerStep), maxOrders(MaxOrders) {}
-
-LimitedDriverVolunteer::LimitedDriverVolunteer(const LimitedDriverVolunteer& dVol) : DriverVolunteer(dVol.getId(), dVol.getName(), dVol.getMaxDistance(), dVol.getDistancePerStep()), maxOrders(dVol.maxOrders) {}
+LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : 
+DriverVolunteer(id, name, MaxDistance, DistancePerStep), maxOrders(MaxOrders) {}
 
 LimitedDriverVolunteer *LimitedDriverVolunteer::clone() const
 {

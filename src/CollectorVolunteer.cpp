@@ -5,8 +5,6 @@
 
 CollectorVolunteer::CollectorVolunteer(int id, const string &name, int CoolDown) : Volunteer(id, name), coolDown(CoolDown), timeLeft(CoolDown) {}
 
-CollectorVolunteer::CollectorVolunteer(const CollectorVolunteer& cVol) : Volunteer(cVol.getId(), cVol.getName()), coolDown(cVol.coolDown), timeLeft(cVol.coolDown) {}
-
 CollectorVolunteer* CollectorVolunteer::clone() const
 {
     return new CollectorVolunteer(*this);
@@ -67,8 +65,6 @@ string CollectorVolunteer::toString() const
 // Limited Collector Volunteer
 
 LimitedCollectorVolunteer::LimitedCollectorVolunteer(int id, const string &name, int coolDown ,int MaxOrders) : CollectorVolunteer(id, name, coolDown), maxOrders(MaxOrders) {}
-
-LimitedCollectorVolunteer::LimitedCollectorVolunteer(const LimitedCollectorVolunteer& cVol) : CollectorVolunteer(cVol.getId(), cVol.getName(), cVol.getCoolDown()), maxOrders(cVol.maxOrders) {}
 
 LimitedCollectorVolunteer *LimitedCollectorVolunteer::clone() const
 {
