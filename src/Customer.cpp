@@ -5,10 +5,6 @@
 Customer::Customer(int Id, const string &Name, int LocationDistance, int MaxOrders) : id(Id), name(Name), 
 locationDistance(LocationDistance), maxOrders(MaxOrders) {}
 
-//copy constructor
-Customer::Customer(Customer* cus) : id(cus->id), name(cus->name), 
-locationDistance(cus->locationDistance), maxOrders(cus->maxOrders){}
-
 const string& Customer::getName() const
 {
     return name;
