@@ -58,7 +58,9 @@ string CollectorVolunteer::toString() const
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
              + "isBusy: " + std::to_string(isBusy()) + "\n"
              + "OrderId: " + std::to_string(activeOrderId) + "\n"
-             + "Time Left: " + std::to_string(timeLeft);
+             + "Time Left: " + std::to_string(timeLeft) + "\n"
+             + "OrdersLeft: " + "No Limit";
+
     return a;
 }
 
@@ -100,6 +102,11 @@ int LimitedCollectorVolunteer::getNumOrdersLeft() const
 
 string LimitedCollectorVolunteer::toString() const
 {
-    string s = CollectorVolunteer::toString() + "\n" + "ordersLeft: " + std::to_string(ordersLeft);
-    return s;     
+    string a = "VolunteerID: " + std::to_string(getId()) + "\n"
+             + "isBusy: " + std::to_string(isBusy()) + "\n"
+             + "OrderId: " + std::to_string(activeOrderId) + "\n"
+             + "Time Left: " + std::to_string(getTimeLeft()) + "\n"
+             + "OrdersLeft: " + std::to_string(ordersLeft);
+
+    return a;     
 }

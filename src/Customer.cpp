@@ -32,7 +32,7 @@ int Customer::getNumOrders() const
 
 bool Customer::canMakeOrder() const
 {
-    return (maxOrders>ordersId.size());
+    return maxOrders > ordersId.size();
 }
 
 const vector<int>& Customer::getOrdersIds() const

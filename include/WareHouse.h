@@ -17,6 +17,7 @@ class WareHouse {
         WareHouse(const std::string &configFilePath);
         void start();
         void addOrder(Order* order);
+        void addCustomer(Customer* customer);
         void addAction(BaseAction* action);
         Customer &getCustomer(int customerId) const;
         Volunteer &getVolunteer(int volunteerId) const;
@@ -24,6 +25,9 @@ class WareHouse {
         const vector<BaseAction*> &getActions() const;
         
         int getOrdersCounter() const;
+        int getCustomerCounter() const;
+        int getVolunteerCounter() const;
+
         const vector<Volunteer*>& getVolunteers();
         const vector<Customer*>& getCustomers();
         const vector<Order*>& getPendingOrders();

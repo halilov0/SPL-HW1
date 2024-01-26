@@ -61,10 +61,25 @@ OrderStatus Order::getStatus() const
 
 const string Order::toString() const
 {
-    return bjf;
+    string a = "OrderId: " + std::to_string(getId()) + "\n"
+             + "OrderStatus: " + getStatusString() + "\n"
+             + "CustomerID: " + std::to_string(getCustomerId()) + "\n"
+             + "Collector: " + (getCollectorId() >= 0 ? std::to_string(getCollectorId()) : "None") + "\n" 
+             + "Driver: " + (getDriverId() >= 0 ? std::to_string(getDriverId()) : "None");
+
+    return a;
 }
 
-
+string Order::getStatusString() const
+{
+    if (status == OrderStatus::PENDING)
+        return "Pending";
+    else if (status == OrderStatus::COLLECTING)
+        return "Collecting";
+    else if (status == OrderStatus::DELIVERING)
+        return "Delivering";
+    return "Completed";
+}
 
 
 
