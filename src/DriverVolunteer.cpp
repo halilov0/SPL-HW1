@@ -62,6 +62,11 @@ string DriverVolunteer::toString() const
     return a;
 }
 
+string DriverVolunteer::flag() const
+{
+    return "d";
+}
+
 // Limited Driver Volunteer
 
 LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : 

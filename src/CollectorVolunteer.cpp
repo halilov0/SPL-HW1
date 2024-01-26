@@ -1,5 +1,5 @@
 #pragma once
-#include "Volunteer.h"
+#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
 
 // Unlimited Collector Volunteer
 
@@ -60,6 +60,11 @@ string CollectorVolunteer::toString() const
              + "OrderId: " + std::to_string(activeOrderId) + "\n"
              + "Time Left: " + std::to_string(timeLeft);
     return a;
+}
+
+string CollectorVolunteer::flag() const
+{
+    return "c";
 }
 
 // Limited Collector Volunteer
