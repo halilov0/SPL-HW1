@@ -8,6 +8,12 @@
 class BaseAction;
 class Volunteer;
 
+enum class OrderType {
+    PENDING,
+    INPROCESS,
+    COMPLETED
+};
+
 //Warehouse responsible for Volunteers, Customers Actions, and Orders.
 
 
@@ -22,17 +28,23 @@ class WareHouse {
         Volunteer &getVolunteer(int volunteerId) const;
         Order &getOrder(int orderId) const;
         const vector<BaseAction*> &getActions() const;
+        void close();
+        void open();
         
+
+        Volunteer& getNotBusyDriver(const Order &order);
+        Volunteer &getNotBusyCollector(const Order &order);
+        void addCustomer(Customer* customer);
+        void addVolunteer(Volunteer* volunteer);
         int getOrdersCounter() const;
         const vector<Volunteer*>& getVolunteers();
         const vector<Customer*>& getCustomers();
         const vector<Order*>& getPendingOrders();
         const vector<Order*>& getInProcessOrders();
         const vector<Order*>& getCompletedOrders();
-        
-        void close();
-        void open();
+        void moveOrder(const Order &order, OrderType from, OrderType to);
 
+        
     private:
         bool isOpen;
         vector<BaseAction*> actionsLog;
@@ -44,4 +56,6 @@ class WareHouse {
         int customerCounter; //For assigning unique customer IDs
         int volunteerCounter; //For assigning unique volunteer IDs
         int ordersCounter;
+        DriverVolunteer* dv; // default 
+        CollectorVolunteer* cv; // default
 };
