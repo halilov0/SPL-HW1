@@ -43,8 +43,7 @@ bool CollectorVolunteer::hasOrdersLeft() const
 
 bool CollectorVolunteer::canTakeOrder(const Order &order) const
 {
-    //Should we consider "is busy"?
-    return timeLeft == coolDown;
+    return (timeLeft == coolDown) && !isBusy();
 }
 
 void CollectorVolunteer::acceptOrder(const Order &order)

@@ -1,7 +1,6 @@
 #pragma once
 #include "Volunteer.h"
 
-// Unlimited Driver Volunteer
 
 DriverVolunteer::DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep) : 
 Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
