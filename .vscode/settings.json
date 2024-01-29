@@ -45,11 +45,11 @@
         "streambuf": "cpp",
         "bit": "cpp"
     },
-    "makefile.makefilePath": "/home/users/bsc/halilovi/Projects/SPL HW1/Makefile",
+    "makefile.makefilePath": "/home/users/bsc/ossy/CPP/SPL-HW1/Makefile",
     "makefile.launchConfigurations": [
         {
-            "cwd": "/home/users/bsc/halilovi/Projects/SPL HW1/bin",
-            "binaryPath": "/home/users/bsc/halilovi/Projects/SPL HW1/bin/hello",
+            "cwd": "/home/users/bsc/ossy/CPP/SPL-HW1/bin",
+            "binaryPath": "/home/users/bsc/ossy/CPP/SPL-HW1/bin/hello",
             "binaryArgs": []
         }
     ]

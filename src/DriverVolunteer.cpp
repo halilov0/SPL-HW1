@@ -17,6 +17,7 @@ void DriverVolunteer::step()
     {
         completedOrderId = activeOrderId;
         activeOrderId = NO_ORDER;
+        // DistanceLeft can be negative so here we ensure it is not
         distanceLeft = 0;
     }
 }

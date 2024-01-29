@@ -23,6 +23,7 @@ PrintOrderStatus *PrintOrderStatus::clone() const
 
 string PrintOrderStatus::toString() const
 {
+    return "orderStatus " + std::to_string(orderId) + " " + getActionStatusString();
 }
 
 // Print Customer Status
@@ -60,6 +61,7 @@ PrintCustomerStatus *PrintCustomerStatus::clone() const
 
 string PrintCustomerStatus::toString() const
 {
+    return "customerStatus " + std::to_string(customerId) + " " + getActionStatusString();
 }
 
 //Print Volunteer Status
@@ -88,7 +90,7 @@ PrintVolunteerStatus *PrintVolunteerStatus::clone() const
 
 string PrintVolunteerStatus::toString() const
 {
-
+    return "volunteerStatus " + std::to_string(VolunteerId) +  " " + getActionStatusString();
 }
 
 // Print Actions Log
@@ -96,7 +98,10 @@ string PrintVolunteerStatus::toString() const
 PrintActionsLog::PrintActionsLog() {}
 void PrintActionsLog::act(WareHouse &wareHouse)
 {
-
+	for (int i = 0; i < wareHouse.getActions().size(); i++)
+	{
+		std::cout << wareHouse.getActions()[i]->toString() << std::endl;
+	}
 }
 
 PrintActionsLog *PrintActionsLog::clone() const
@@ -106,5 +111,5 @@ PrintActionsLog *PrintActionsLog::clone() const
 
 string PrintActionsLog::toString() const
 {
-
+    return "log " + getActionStatusString();
 }

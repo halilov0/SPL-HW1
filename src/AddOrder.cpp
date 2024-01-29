@@ -18,3 +18,8 @@ void AddOrder::act(WareHouse &wareHouse)
     else 
         error("Cannot place this order");        
 }
+
+string AddOrder::toString() const
+{
+    return "order " + std::to_string(customerId) + " " + getActionStatusString(); 
+}   

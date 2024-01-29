@@ -1,7 +1,7 @@
 #pragma once
 #include <fstream>
 #include "WareHouse.h"
-#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
+#include "Volunteer.h"
 #include <iostream>
 #include <sstream>
 #include "Action.h"

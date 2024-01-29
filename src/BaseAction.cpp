@@ -27,3 +27,9 @@ string BaseAction::getErrorMsg() const
     return errorMsg;
 }
 
+string BaseAction::getActionStatusString() const
+{
+    if (status == ActionStatus::COMPLETED)
+        return "COMPLETED";
+    return "ERROR";
+}
