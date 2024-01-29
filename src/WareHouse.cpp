@@ -4,6 +4,7 @@
 #include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
 #include <iostream>
 #include <sstream>
+#include "Action.h"
 using namespace std;
 
 WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_ORDER, "not real", -1, -1)), cv(new CollectorVolunteer(NO_ORDER, "not real", -1)) 
@@ -47,6 +48,84 @@ void WareHouse::start()
 {
     isOpen = true;
     cout << "Warehouse is open!" << endl; 
+    while (isOpen)
+    {
+        string input;
+        getline(std::cin, input);
+        stringstream iss(input);
+        vector<std::string> words;
+        string word;
+        while (iss >> word) {
+            words.push_back(word);
+        }
+
+        if (words[0] == "step")
+        {
+            SimulateStep* step = new SimulateStep(stoi(words[1]));
+            step->act(*this);
+            delete step;
+        }
+        else if (words[0] == "order")
+        {
+            AddOrder* order = new AddOrder(stoi(words[1]));
+            order->act(*this);
+            ordersCounter++;
+            delete order;
+        }
+        else if (words[0] == "customer")
+        {
+            AddCustomer* customer = new AddCustomer(words[1], words[2], stoi(words[3]), stoi(words[4]));
+            customer->act(*this);
+            customerCounter++;
+            delete customer;
+        }
+        else if (words[0] == "orderStatus")
+        {
+            PrintOrderStatus* orderStatus = new PrintOrderStatus(stoi(words[1]));
+            orderStatus->act(*this);
+            delete orderStatus;
+        }
+        else if (words[0] == "customerStatus")
+        {
+            PrintCustomerStatus* customerStatus = new PrintCustomerStatus(stoi(words[1]));
+            customerStatus->act(*this);
+            delete customerStatus;
+        }
+        else if (words[0] == "volunteerStatus")
+        {
+            PrintVolunteerStatus* volunteerStatus = new PrintVolunteerStatus(stoi(words[1]));
+            volunteerStatus->act(*this);
+            delete volunteerStatus;
+        }
+        else if (words[0] == "log")
+        {
+            PrintActionsLog* log = new PrintActionsLog();
+            log->act(*this);
+            delete log;
+        }
+        else if (words[0] == "close")
+        {
+            Close* close = new Close();
+            close->act(*this);
+            delete close;
+        }
+        else if (words[0] == "backup")
+        {
+            BackupWareHouse* backup = new BackupWareHouse();
+            backup->act(*this);
+            delete backup; 
+        }
+        else if (words[0] == "restore")
+        {
+            RestoreWareHouse* restore = new RestoreWareHouse();
+            restore->act(*this);
+            delete restore;
+        }
+        else
+        {
+            cout << "Invalid Command";
+        }
+    }
 }
 
 Volunteer &WareHouse::getNotBusyDriver(const Order &order)
