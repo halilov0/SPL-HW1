@@ -155,3 +155,17 @@ Volunteer &WareHouse::getNotBusyCollector(const Order &order)
     }
     return *dv;
 }
+
+void WareHouse::removeVolunteer(int id)
+{
+    vector<Volunteer*> vec = getVolunteers();
+    bool stop = false;
+    for(int i = 0; i < vec.size() && !stop; i = i + 1)
+    {
+        if(vec[i]->getId() == id)
+        {
+            vec.erase(vec.begin() + i);
+            stop = true;
+        }
+    }
+}

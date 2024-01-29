@@ -40,6 +40,7 @@ class WareHouse {
         int getOrdersCounter() const;
         int getCustomerCounter() const;
         int getVolunteerCounter() const;
+        void removeVolunteer(int id);
 
         const vector<Volunteer*>& getVolunteers();
         const vector<Customer*>& getCustomers();
