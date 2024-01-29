@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include "WareHouse.h"
+
 using std::string;
 using std::vector;
 
@@ -20,7 +21,8 @@ class BaseAction{
         ActionStatus getStatus() const;
         virtual void act(WareHouse& wareHouse)=0;
         virtual string toString() const=0;
-        virtual BaseAction* clone() const=0;
+        virtual BaseAction* clone() const=0;        
+        string getActionStatusString() const;
 
     protected:
         void complete();
