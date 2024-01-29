@@ -1,12 +1,13 @@
 #pragma once
 #include <fstream>
 #include "WareHouse.h"
+#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
 #include <iostream>
 #include <sstream>
 #include "Action.h"
 using namespace std;
 
-WareHouse::WareHouse(const string &configFilePath) 
+WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_ORDER, "not real", -1, -1)), cv(new CollectorVolunteer(NO_ORDER, "not real", -1)) 
 {
     string filePath = configFilePath; // replace with your own file path
     ifstream inputFile(filePath);
@@ -125,4 +126,32 @@ void WareHouse::start()
             cout << "Invalid Command";
         }
     }
+}
+
+Volunteer &WareHouse::getNotBusyDriver(const Order &order)
+{
+    for(int i = 0; i<getVolunteers().size(); i++)
+    {
+        Volunteer* v = getVolunteers()[i];
+        if(v->flag() == "d" && v->canTakeOrder(order))
+        {
+            return *v;
+        }
+        
+    }
+    return *dv;
+}
+
+Volunteer &WareHouse::getNotBusyCollector(const Order &order)
+{
+    for(int i = 0; i<getVolunteers().size(); i++)
+    {
+        Volunteer* v = getVolunteers()[i];
+        if(v->flag() == "c" && v->canTakeOrder(order))
+        {
+            return *v;
+        }
+        
+    }
+    return *dv;
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "Volunteer.h"
+#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
 
 // Unlimited Collector Volunteer
 
@@ -62,6 +62,11 @@ string CollectorVolunteer::toString() const
              + "OrdersLeft: " + "No Limit";
 
     return a;
+}
+
+string CollectorVolunteer::flag() const
+{
+    return "c";
 }
 
 // Limited Collector Volunteer
