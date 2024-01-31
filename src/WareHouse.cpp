@@ -156,16 +156,73 @@ Volunteer &WareHouse::getNotBusyCollector(const Order &order)
     return *dv;
 }
 
-void WareHouse::removeVolunteer(int id)
+void WareHouse::removeUselessVolunteers()
 {
     vector<Volunteer*> vec = getVolunteers();
-    bool stop = false;
-    for(int i = 0; i < vec.size() && !stop; i = i + 1)
+    
+    for(vector<Volunteer*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
     {
-        if(vec[i]->getId() == id)
+        if(!(*itr)->hasOrdersLeft())
         {
-            vec.erase(vec.begin() + i);
-            stop = true;
+            vec.erase(itr);
+            delete *itr;
+        }    
+    }
+}
+
+void WareHouse::moveOrder(Order* order, OrderType from, OrderType to)
+{
+    Order* o = order;
+    if(from == OrderType::PENDING)
+    {
+        if(to == OrderType::INPROCESS)
+        {
+            vector<Order*> newVec = getInProcessOrders();
+            newVec.push_back(o);
+            removeOrder(o->getId(), OrderType::PENDING);
         }
+        else if(to == OrderType::COMPLETED)
+        {
+            vector<Order*> newVec = getCompletedOrders();
+            newVec.push_back(o);
+            removeOrder(o->getId(), OrderType::PENDING);
+        }
+    }
+    else if(from == OrderType::INPROCESS)
+    {
+        if(to == OrderType::COMPLETED)
+        {
+            vector<Order*> newVec = getCompletedOrders();
+            newVec.push_back(o);
+            removeOrder(o->getId(), OrderType::INPROCESS);
+        }
+    }
+    else{
+        cout << "not valid 'move order'" << endl;
+    }
+}
+
+void WareHouse::removeOrder(int id, OrderType from)
+{
+    vector<Order*> vec;
+    if(from == OrderType::PENDING)
+    {
+        vec = getPendingOrders();
+    }
+    else if(from == OrderType::INPROCESS)
+    {
+        vec = getInProcessOrders();
+    }
+    else
+    {
+        vec = getCompletedOrders();
+    }
+    
+    for(vector<Order*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
+    {
+        if((*itr)->getId() == id)
+        {
+            vec.erase(itr);
+        }    
     }
 }
