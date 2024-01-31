@@ -353,10 +353,7 @@ const vector<Order*>& WareHouse::getCompletedOrders()
     return completedOrders;
 }
 
-void WareHouse::moveOrder(const Order &order, OrderType from, OrderType to)
-{
 
-}
 
 void addVolunteer(Volunteer* volunteer)
 {
@@ -375,3 +372,76 @@ int WareHouse::getVolunteerCounter() const
     return volunteerCounter;
 }
 void removeVolunteer(int id) {}
+
+
+
+void WareHouse::removeUselessVolunteers()
+{
+    vector<Volunteer*> vec = getVolunteers();
+    
+    for(vector<Volunteer*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
+    {
+        if(!(*itr)->hasOrdersLeft())
+        {
+            vec.erase(itr);
+            delete *itr;
+        }    
+    }
+}
+
+void WareHouse::moveOrder(Order* order, OrderType from, OrderType to)
+{
+    Order* o = order;
+    if(from == OrderType::PENDING)
+    {
+        if(to == OrderType::INPROCESS)
+        {
+            vector<Order*> newVec = getInProcessOrders();
+            newVec.push_back(o);
+            removeOrder(o->getId(), OrderType::PENDING);
+        }
+        else if(to == OrderType::COMPLETED)
+        {
+            vector<Order*> newVec = getCompletedOrders();
+            newVec.push_back(o);
+            removeOrder(o->getId(), OrderType::PENDING);
+        }
+    }
+    else if(from == OrderType::INPROCESS)
+    {
+        if(to == OrderType::COMPLETED)
+        {
+            vector<Order*> newVec = getCompletedOrders();
+            newVec.push_back(o);
+            removeOrder(o->getId(), OrderType::INPROCESS);
+        }
+    }
+    else{
+        cout << "not valid 'move order'" << endl;
+    }
+}
+
+void WareHouse::removeOrder(int id, OrderType from)
+{
+    vector<Order*> vec;
+    if(from == OrderType::PENDING)
+    {
+        vec = getPendingOrders();
+    }
+    else if(from == OrderType::INPROCESS)
+    {
+        vec = getInProcessOrders();
+    }
+    else
+    {
+        vec = getCompletedOrders();
+    }
+    
+    for(vector<Order*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
+    {
+        if((*itr)->getId() == id)
+        {
+            vec.erase(itr);
+        }    
+    }
+}
