@@ -24,7 +24,7 @@ void SimulateStep::act(WareHouse &wareHouse)
                 //Collector.step();
                 o->setCollectorId(Collector.getId());
                 o->setStatus(OrderStatus::COLLECTING);
-                wareHouse.moveOrder(*o, OrderType::PENDING, OrderType::INPROCESS);
+                wareHouse.moveOrder(o, OrderType::PENDING, OrderType::INPROCESS);
            }
         }            
         
@@ -40,7 +40,7 @@ void SimulateStep::act(WareHouse &wareHouse)
               //  Driver.step();
                 o->setDriverId(Driver.getId());
                 o->setStatus(OrderStatus::DELIVERING);
-                wareHouse.moveOrder(*o, OrderType::PENDING, OrderType::INPROCESS);
+                wareHouse.moveOrder(o, OrderType::PENDING, OrderType::INPROCESS);
             }
         }  
     } 
@@ -63,18 +63,17 @@ void SimulateStep::act(WareHouse &wareHouse)
             // push the order to the right list
             if(o->getStatus() == OrderStatus::COLLECTING)
             {
-                wareHouse.moveOrder(*o, OrderType::INPROCESS, OrderType::PENDING);
+                wareHouse.moveOrder(o, OrderType::INPROCESS, OrderType::PENDING);
                 o->setCollectorId(NO_VOLUNTEER);
             }
             else if (o->getStatus() == OrderStatus::DELIVERING)
             {
-                wareHouse.moveOrder(*o, OrderType::INPROCESS, OrderType::COMPLETED);
+                wareHouse.moveOrder(o, OrderType::INPROCESS, OrderType::COMPLETED);
                 o->setDriverId(NO_VOLUNTEER);
             }           
         }
-        //if(!v.hasOrdersLeft())
-          //  wareHouse.removeVolunteer(v.getId());       
     }
+    wareHouse.removeUselessVolunteers();   
 }
 
 string SimulateStep::toString() const

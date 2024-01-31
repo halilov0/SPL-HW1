@@ -37,14 +37,15 @@ class WareHouse {
         int getOrdersCounter() const;
         int getCustomerCounter() const;
         int getVolunteerCounter() const;
-        void removeVolunteer(int id);
+        void removeUselessVolunteers();
+        void removeOrder(int id, OrderType from);
 
         const vector<Volunteer*>& getVolunteers();
         const vector<Customer*>& getCustomers();
         const vector<Order*>& getPendingOrders();
         const vector<Order*>& getInProcessOrders();
         const vector<Order*>& getCompletedOrders();
-        void moveOrder(const Order &order, OrderType from, OrderType to);
+        void moveOrder(Order* order, OrderType from, OrderType to);
 
         
     private:
