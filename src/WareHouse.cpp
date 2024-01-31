@@ -32,14 +32,12 @@ WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_O
                     if(v[2] == "soldier")
                     {     
                         Customer *temp = new SoldierCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
-                        customers.push_back(temp);
-                        customerCounter++;
+                        addCustomer(temp);
                     }
                     else if(v[2] == "civilian")
                     {
                         Customer *temp = new CivilianCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
-                        customers.push_back(temp);
-                        customerCounter++;
+                        addCustomer(temp);
                     }
                 }            
                 else if (v[0] == "volunteer")
@@ -47,26 +45,22 @@ WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_O
                     if (v[2] == "collector")
                     {
                         CollectorVolunteer* temp = new CollectorVolunteer(volunteerCounter, v[1], stoi(v[3]));
-                        volunteers.push_back(temp);
-                        volunteerCounter++;
+                        addVolunteer(temp);
                     }
                     else if (v[2] == "limited_collector")
                     {
                         LimitedCollectorVolunteer* temp = new LimitedCollectorVolunteer(volunteerCounter, v[1], stoi(v[3]), stoi(v[4]));
-                        volunteers.push_back(temp);
-                        volunteerCounter++;
+                        addVolunteer(temp);
                     }
                     else if (v[2] == "driver")
                     {
                         DriverVolunteer* temp = new DriverVolunteer(volunteerCounter, v[1], stoi(v[3]), stoi(v[4]));
-                        volunteers.push_back(temp);
-                        volunteerCounter++;
+                        addVolunteer(temp);
                     }
                     else if (v[2] == "limited_driver")
                     {
                         LimitedDriverVolunteer* temp = new LimitedDriverVolunteer(volunteerCounter, v[1], stoi(v[3]), stoi(v[4]), stoi(v[5]));
-                        volunteers.push_back(temp);
-                        volunteerCounter++;
+                        addVolunteer(temp);
                     }
                 }
             }
@@ -98,16 +92,14 @@ void WareHouse::start()
         }
         else if (words[0] == "order")
         {
-            AddOrder* order = new AddOrder(stoi(words[1]));
-            order->act(*this);
-            ordersCounter++;
-            delete order;
+            AddOrder* addOrder = new AddOrder(stoi(words[1]));
+            addOrder->act(*this);
+            delete addOrder;
         }
         else if (words[0] == "customer")
         {
             AddCustomer* customer = new AddCustomer(words[1], words[2], stoi(words[3]), stoi(words[4]));
             customer->act(*this);
-            customerCounter++;
             delete customer;
         }
         else if (words[0] == "orderStatus")
@@ -233,39 +225,16 @@ void WareHouse::moveOrder(Order* order, OrderType from, OrderType to)
     }
 }
 
-void WareHouse::removeOrder(int id, OrderType from)
-{
-    vector<Order*> vec;
-    if(from == OrderType::PENDING)
-    {
-        vec = getPendingOrders();
-    }
-    else if(from == OrderType::INPROCESS)
-    {
-        vec = getInProcessOrders();
-    }
-    else
-    {
-        vec = getCompletedOrders();
-    }
-    
-    for(vector<Order*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
-    {
-        if((*itr)->getId() == id)
-        {
-            vec.erase(itr);
-        }    
-    }
-}
-
 void WareHouse::addOrder(Order* order)
 {
     pendingOrders.push_back(order);
+    ordersCounter++;
 }
 
 void WareHouse::addCustomer(Customer* customer)
 {
-
+    customers.push_back(customer);
+    customerCounter++;
 }
 
 void WareHouse::addAction(BaseAction* action)
@@ -355,9 +324,10 @@ const vector<Order*>& WareHouse::getCompletedOrders()
 
 
 
-void addVolunteer(Volunteer* volunteer)
+void WareHouse::addVolunteer(Volunteer* volunteer)
 {
-
+    volunteers.push_back(volunteer);
+    volunteerCounter++;
 }
 int WareHouse::getOrdersCounter() const
 {
@@ -371,55 +341,7 @@ int WareHouse::getVolunteerCounter() const
 {
     return volunteerCounter;
 }
-void removeVolunteer(int id) {}
 
-
-
-void WareHouse::removeUselessVolunteers()
-{
-    vector<Volunteer*> vec = getVolunteers();
-    
-    for(vector<Volunteer*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
-    {
-        if(!(*itr)->hasOrdersLeft())
-        {
-            vec.erase(itr);
-            delete *itr;
-        }    
-    }
-}
-
-void WareHouse::moveOrder(Order* order, OrderType from, OrderType to)
-{
-    Order* o = order;
-    if(from == OrderType::PENDING)
-    {
-        if(to == OrderType::INPROCESS)
-        {
-            vector<Order*> newVec = getInProcessOrders();
-            newVec.push_back(o);
-            removeOrder(o->getId(), OrderType::PENDING);
-        }
-        else if(to == OrderType::COMPLETED)
-        {
-            vector<Order*> newVec = getCompletedOrders();
-            newVec.push_back(o);
-            removeOrder(o->getId(), OrderType::PENDING);
-        }
-    }
-    else if(from == OrderType::INPROCESS)
-    {
-        if(to == OrderType::COMPLETED)
-        {
-            vector<Order*> newVec = getCompletedOrders();
-            newVec.push_back(o);
-            removeOrder(o->getId(), OrderType::INPROCESS);
-        }
-    }
-    else{
-        cout << "not valid 'move order'" << endl;
-    }
-}
 
 void WareHouse::removeOrder(int id, OrderType from)
 {
