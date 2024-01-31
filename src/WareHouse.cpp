@@ -7,12 +7,13 @@
 #include "Action.h"
 using namespace std;
 
-WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_ORDER, "not real", -1, -1)), cv(new CollectorVolunteer(NO_ORDER, "not real", -1)) 
+WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_ORDER, "not real", -1, -1)), cv(new CollectorVolunteer(NO_ORDER, "not real", -1)), nullSCustomer(new SoldierCustomer(NO_CUSTOMER, "Not real", -1, -1)), nullCCustomer(new CivilianCustomer(NO_CUSTOMER, "Not real", -1, -1))
 {
     string filePath = configFilePath; // replace with your own file path
     ifstream inputFile(filePath);
     customerCounter = 0;
     volunteerCounter = 0;
+    ordersCounter = 0;
     if (inputFile.is_open())
     {
         string line;
@@ -23,22 +24,52 @@ WareHouse::WareHouse(const string &configFilePath) : dv(new DriverVolunteer(NO_O
             vector<string> v;
             while (getline(lines, word, ' ')) 
                 v.push_back(word);
-
-            if(v[0] == "customer")
+            
+            if (v.size() > 0)
             {
-                if(v[2] == "soldier")
-                {     
-                    Customer *temp = new SoldierCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
-                    customers.push_back(temp);
-                    customerCounter = customerCounter + 1;
-                }
-                else if(v[2] == "civilian")
+                if (v[0] == "customer")
                 {
-                    Customer *temp = new CivilianCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
-                    customers.push_back(temp);
-                    customerCounter = customerCounter + 1;
+                    if(v[2] == "soldier")
+                    {     
+                        Customer *temp = new SoldierCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
+                        customers.push_back(temp);
+                        customerCounter++;
+                    }
+                    else if(v[2] == "civilian")
+                    {
+                        Customer *temp = new CivilianCustomer(customerCounter, v[1], stoi(v[3]), stoi(v[4]));              
+                        customers.push_back(temp);
+                        customerCounter++;
+                    }
+                }            
+                else if (v[0] == "volunteer")
+                {
+                    if (v[2] == "collector")
+                    {
+                        CollectorVolunteer* temp = new CollectorVolunteer(volunteerCounter, v[1], stoi(v[3]));
+                        volunteers.push_back(temp);
+                        volunteerCounter++;
+                    }
+                    else if (v[2] == "limited_collector")
+                    {
+                        LimitedCollectorVolunteer* temp = new LimitedCollectorVolunteer(volunteerCounter, v[1], stoi(v[3]), stoi(v[4]));
+                        volunteers.push_back(temp);
+                        volunteerCounter++;
+                    }
+                    else if (v[2] == "driver")
+                    {
+                        DriverVolunteer* temp = new DriverVolunteer(volunteerCounter, v[1], stoi(v[3]), stoi(v[4]));
+                        volunteers.push_back(temp);
+                        volunteerCounter++;
+                    }
+                    else if (v[2] == "limited_driver")
+                    {
+                        LimitedDriverVolunteer* temp = new LimitedDriverVolunteer(volunteerCounter, v[1], stoi(v[3]), stoi(v[4]), stoi(v[5]));
+                        volunteers.push_back(temp);
+                        volunteerCounter++;
+                    }
                 }
-            }            
+            }
         }
         inputFile.close();
     }   
@@ -169,3 +200,121 @@ void WareHouse::removeVolunteer(int id)
         }
     }
 }
+
+void WareHouse::addOrder(Order* order)
+{
+    pendingOrders.push_back(order);
+}
+
+void WareHouse::addCustomer(Customer* customer)
+{
+
+}
+
+void WareHouse::addAction(BaseAction* action)
+{
+
+}
+
+Customer &WareHouse::getCustomer(int customerId) const
+{
+    for (int i = 0; i < customers.size(); i++)
+    {
+        if (customers[i]->getId() == customerId)
+            return *customers[i];
+    }
+    return *nullSCustomer;
+    //throw std::runtime_error("Customer not found");
+}
+
+Volunteer &WareHouse::getVolunteer(int volunteerId) const
+{
+    for (int i = 0; i < volunteers.size(); i++)
+    {
+        if (volunteers[i]->getId() == volunteerId)
+            return *volunteers[i];
+    }
+    
+    throw std::runtime_error("Volunteer not found");
+}
+
+Order &WareHouse::getOrder(int orderId) const
+{
+    for (int i = 0; i < pendingOrders.size(); i++)
+    {
+        if (pendingOrders[i]->getId() == orderId)
+            return *pendingOrders[i];
+    }
+    for (int i = 0; i < inProcessOrders.size(); i++)
+    {
+        if (pendingOrders[i]->getId() == orderId)
+            return *pendingOrders[i];
+    }
+    for (int i = 0; i < completedOrders.size(); i++)
+    {
+        if (pendingOrders[i]->getId() == orderId)
+            return *pendingOrders[i];
+    }    
+    throw std::runtime_error("Order not found");
+}
+
+const vector<BaseAction*> &WareHouse::getActions() const
+{    
+    throw std::runtime_error("Actions not found");
+}
+
+void close()
+{
+
+}
+void open()
+{
+
+}
+
+
+const vector<Volunteer*>& WareHouse::getVolunteers()
+{
+    return volunteers;
+}
+const vector<Customer*>& WareHouse::getCustomers()
+{
+    return customers;
+}
+const vector<Order*>& WareHouse::getPendingOrders()
+{
+    return pendingOrders;
+}
+
+const vector<Order*>& WareHouse::getInProcessOrders()
+{
+    return inProcessOrders;
+}
+
+const vector<Order*>& WareHouse::getCompletedOrders()
+{
+    return completedOrders;
+}
+
+void WareHouse::moveOrder(const Order &order, OrderType from, OrderType to)
+{
+
+}
+
+void addVolunteer(Volunteer* volunteer)
+{
+
+}
+int WareHouse::getOrdersCounter() const
+{
+    return ordersCounter;
+}
+int WareHouse::getCustomerCounter() const
+{
+    return customerCounter;
+}
+int WareHouse::getVolunteerCounter() const
+{
+    return volunteerCounter;
+}
+void removeVolunteer(int id) {}

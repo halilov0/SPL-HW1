@@ -1,5 +1,5 @@
 #pragma once
-#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
+#include "Volunteer.h"
 
 // Unlimited Collector Volunteer
 
@@ -55,7 +55,7 @@ void CollectorVolunteer::acceptOrder(const Order &order)
 string CollectorVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
-             + "isBusy: " + std::to_string(isBusy()) + "\n"
+             + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
              + "OrderId: " + std::to_string(activeOrderId) + "\n"
              + "Time Left: " + std::to_string(timeLeft) + "\n"
              + "OrdersLeft: " + "No Limit";
@@ -107,7 +107,7 @@ int LimitedCollectorVolunteer::getNumOrdersLeft() const
 string LimitedCollectorVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
-             + "isBusy: " + std::to_string(isBusy()) + "\n"
+             + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
              + "OrderId: " + std::to_string(activeOrderId) + "\n"
              + "Time Left: " + std::to_string(getTimeLeft()) + "\n"
              + "OrdersLeft: " + std::to_string(ordersLeft);
