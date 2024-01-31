@@ -60,7 +60,7 @@ bin/WareHouse.o: src/WareHouse.cpp
 # Run the executable with command-line arguments
 run: hello
 	@echo 'Running target: hello'
-	./bin/hello "/home/users/bsc/ossy/CPP/SPL-HW1/Example.txt"
+	./bin/hello "/home/users/bsc/halilovi/Projects/SPL HW1/Example.txt"
 	@echo ''
 
 #Clean the build directory
