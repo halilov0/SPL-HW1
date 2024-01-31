@@ -47,6 +47,12 @@ class WareHouse {
         const vector<Order*>& getCompletedOrders();
         void moveOrder(Order* order, OrderType from, OrderType to);
 
+        // rule of 5
+        WareHouse(const WareHouse& other);
+        ~WareHouse();       
+        void operator=(const WareHouse& other);
+        WareHouse(WareHouse&& other);
+        void operator=(WareHouse&& other);
         
     private:
         bool isOpen;
