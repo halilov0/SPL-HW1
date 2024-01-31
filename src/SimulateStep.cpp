@@ -1,7 +1,8 @@
 #pragma once
-#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Action.h"
-#include "/home/users/bsc/halilovi/Projects/SPL HW1/include/Volunteer.h"
+#include "Action.h"
+#include "Volunteer.h"
 #include <iostream>
+#include "WareHouse.h"
 using namespace std;
 
 SimulateStep::SimulateStep(int NumOfSteps) : numOfSteps(NumOfSteps) {}
@@ -70,7 +71,7 @@ void SimulateStep::act(WareHouse &wareHouse)
                 wareHouse.moveOrder(o, OrderType::INPROCESS, OrderType::COMPLETED);
                 o->setDriverId(NO_VOLUNTEER);
             }           
-        }   
+        }
     }
     wareHouse.removeUselessVolunteers();   
 }

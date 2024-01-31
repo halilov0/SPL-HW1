@@ -14,16 +14,6 @@ int Order::getCustomerId() const
     return customerId;
 }
 
-int Order::getCustomerId() const
-{
-    return customerId;
-}
-
-int Order::getCustomerId() const
-{
-    return customerId;
-}
-
 void Order::setStatus(OrderStatus status) 
 {
     this->status = status;

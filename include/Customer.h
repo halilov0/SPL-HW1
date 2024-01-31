@@ -4,7 +4,7 @@
 using std::string;
 using std::vector;
 
-
+#define NO_CUSTOMER -1
 
 class Customer {
     public:

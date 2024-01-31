@@ -56,7 +56,7 @@ void DriverVolunteer::acceptOrder(const Order &order)
 string DriverVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
-             + "isBusy: " + std::to_string(isBusy()) + "\n"
+             + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
              + "OrderId: " + std::to_string(activeOrderId) + "\n"
              + "Time Left: " + std::to_string(distanceLeft) + "\n" //Yes, it is *Time Left* (according to the pdf)
              + "OrdersLeft: " + "No Limit"; 
@@ -102,7 +102,7 @@ int LimitedDriverVolunteer::getMaxOrders() const
 string LimitedDriverVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
-             + "isBusy: " + std::to_string(isBusy()) + "\n"
+             + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
              + "OrderId: " + std::to_string(activeOrderId) + "\n"
              + "Time Left: " + std::to_string(getDistanceLeft()) + "\n" //Yes, it is *Time Left* (according to the pdf)
              + "OrdersLeft: " + std::to_string(ordersLeft); 

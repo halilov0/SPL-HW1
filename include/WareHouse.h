@@ -15,8 +15,6 @@ enum class OrderType {
 };
 
 //Warehouse responsible for Volunteers, Customers Actions, and Orders.
-
-
 class WareHouse {
 
     public:
@@ -35,7 +33,6 @@ class WareHouse {
 
         Volunteer& getNotBusyDriver(const Order &order);
         Volunteer &getNotBusyCollector(const Order &order);
-        void addCustomer(Customer* customer);
         void addVolunteer(Volunteer* volunteer);
         int getOrdersCounter() const;
         int getCustomerCounter() const;
@@ -62,6 +59,8 @@ class WareHouse {
         int customerCounter; //For assigning unique customer IDs
         int volunteerCounter; //For assigning unique volunteer IDs
         int ordersCounter;
-        DriverVolunteer* dv; // default 
-        CollectorVolunteer* cv; // default
+        Volunteer* dv; // default 
+        Volunteer* cv; // default
+        Customer* nullSCustomer;
+        Customer* nullCCustomer;
 };
