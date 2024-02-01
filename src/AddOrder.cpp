@@ -12,9 +12,8 @@ void AddOrder::act(WareHouse &wareHouse)
     Customer& customer = wareHouse.getCustomer(customerId);
     if(customer.getId() != NO_CUSTOMER && customer.canMakeOrder())
     {
-        Order* order = new Order(wareHouse.getOrdersCounter(), customerId, customer.getCustomerDistance());
-        wareHouse.addOrder(order);
-        order = nullptr; //??
+        complete();
+        wareHouse.addAction(this);
     }
     else 
         error("Cannot place this order");        

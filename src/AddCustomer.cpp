@@ -22,18 +22,21 @@ AddCustomer::AddCustomer(string CustomerName, string CustomerType, int Distance,
 
 void AddCustomer::act(WareHouse &wareHouse)
 {
-    Customer* customer;
-    if (customerType == CustomerType::Soldier)
-    {
-        customer = new SoldierCustomer(wareHouse.getCustomerCounter(), customerName, distance, maxOrders);
-        wareHouse.addCustomer(customer);
-    }   
-    else
-    {
-        customer = new CivilianCustomer(wareHouse.getCustomerCounter(), customerName, distance, maxOrders);
-        wareHouse.addCustomer(customer);
-    }
-    delete customer; //??
+    complete();
+    wareHouse.addAction(this);
+    // if ()
+    // Customer* customer;
+    // if (customerType == CustomerType::Soldier)
+    // {
+    //     customer = new SoldierCustomer(wareHouse.getCustomerCounter(), customerName, distance, maxOrders);
+    //     wareHouse.addCustomer(customer);
+    // }   
+    // else
+    // {
+    //     customer = new CivilianCustomer(wareHouse.getCustomerCounter(), customerName, distance, maxOrders);
+    //     wareHouse.addCustomer(customer);
+    // }
+    // delete customer; //??
 }
 
 string AddCustomer::toString() const

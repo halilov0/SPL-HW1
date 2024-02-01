@@ -31,14 +31,13 @@ class WareHouse {
         void open();
         
 
-        Volunteer& getNotBusyDriver(const Order &order);
-        Volunteer &getNotBusyCollector(const Order &order);
+        Volunteer& getNotBusyVolunteer(const Order &order, string flag);
         void addVolunteer(Volunteer* volunteer);
         int getOrdersCounter() const;
         int getCustomerCounter() const;
         int getVolunteerCounter() const;
         void removeUselessVolunteers();
-        void removeOrder(int id, OrderType from);
+        void removeOrder(int id, vector<Order*>& ordersToRemove);
 
         const vector<Volunteer*>& getVolunteers();
         const vector<Customer*>& getCustomers();

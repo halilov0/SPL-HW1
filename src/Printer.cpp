@@ -9,12 +9,10 @@
 PrintOrderStatus::PrintOrderStatus(int id) : orderId(id) {}
 void PrintOrderStatus::act(WareHouse &wareHouse)
 {
-    if (orderId >= wareHouse.getOrdersCounter()) //Assuming!
-    {
+    if (0 <= orderId && orderId < wareHouse.getOrdersCounter()) //Assuming!
+        std::cout << wareHouse.getOrder(orderId).toString() << std::endl;
+    else
         error("Order doesn't exist");
-        return;
-    }
-    std::cout << wareHouse.getOrder(orderId).toString() << std::endl;
 }
 
 PrintOrderStatus *PrintOrderStatus::clone() const
@@ -44,15 +42,15 @@ void PrintCustomerStatus::act(WareHouse &wareHouse)
         return;
     }
 
-    std::cout << "CustomerID: " + customerId << std::endl;
+    std::cout << "CustomerID: " << customerId << std::endl;
     for (int i = 0; i < wareHouse.getCustomer(customerId).getOrdersIds().size(); i++)
     {
         int orderId = wareHouse.getCustomer(customerId).getOrdersIds()[i];
         string orderStatus = wareHouse.getOrder(orderId).getStatusString();
-        std::cout << "OrderID: " + orderId << std::endl;
-        std::cout << "OrderStatus: " + orderStatus << std::endl;
+        std::cout << "OrderID: " << orderId << std::endl;
+        std::cout << "OrderStatus: " << orderStatus << std::endl;
     }
-    std::cout << "numOrdersLeft: " + wareHouse.getCustomer(customerId).getMaxOrders() - wareHouse.getCustomer(customerId).getNumOrders() << std::endl;
+    std::cout << "numOrdersLeft: " << wareHouse.getCustomer(customerId).getMaxOrders() - wareHouse.getCustomer(customerId).getNumOrders() << std::endl;
 }
 
 PrintCustomerStatus *PrintCustomerStatus::clone() const

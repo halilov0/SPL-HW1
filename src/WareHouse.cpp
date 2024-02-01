@@ -92,15 +92,37 @@ void WareHouse::start()
         }
         else if (words[0] == "order")
         {
-            AddOrder* addOrder = new AddOrder(stoi(words[1]));
-            addOrder->act(*this);
-            delete addOrder;
+            int customerID = stoi(words[1]);
+            Customer& customer = getCustomer(customerID);
+            Order* order = new Order(ordersCounter, customerID, customer.getCustomerDistance());
+            if (customer.addOrder(order->getId()) != -1) // returned orderId if added successfully
+            {
+                this->addOrder(order);
+            }
         }
         else if (words[0] == "customer")
         {
-            AddCustomer* customer = new AddCustomer(words[1], words[2], stoi(words[3]), stoi(words[4]));
-            customer->act(*this);
-            delete customer;
+            Customer *temp;
+            
+            string name = words[1];
+            string customerType = words[2];
+            int locationDistance = stoi(words[3]);
+            int maxOrders = stoi(words[4]);
+
+            if (customerType == "soldier")     
+                temp = new SoldierCustomer(customerCounter, name, locationDistance, maxOrders);
+            else if (customerType == "civilian")
+                temp = new CivilianCustomer(customerCounter, name, locationDistance, maxOrders);
+            else
+                cout << "no such customer type" << endl;
+            
+            AddCustomer* addCustomer = new AddCustomer(name, customerType, locationDistance, maxOrders);
+            addCustomer->act(*this);
+            
+            if (addCustomer->getStatus() == ActionStatus::COMPLETED) //Should not result error
+                this->addCustomer(temp);
+            
+            delete addCustomer;
         }
         else if (words[0] == "orderStatus")
         {
@@ -146,37 +168,23 @@ void WareHouse::start()
         }
         else
         {
-            cout << "Invalid Command";
+            cout << "Invalid Command" << endl;
         }
     }
 }
 
-Volunteer &WareHouse::getNotBusyDriver(const Order &order)
+Volunteer &WareHouse::getNotBusyVolunteer(const Order &order, string flag)
 {
-    for(int i = 0; i<getVolunteers().size(); i++)
+    for(int i = 0; i < getVolunteers().size(); i++)
     {
         Volunteer* v = getVolunteers()[i];
-        if(v->flag() == "d" && v->canTakeOrder(order))
+        if(v->flag() == flag && v->canTakeOrder(order))
         {
             return *v;
         }
         
     }
-    return *dv;
-}
-
-Volunteer &WareHouse::getNotBusyCollector(const Order &order)
-{
-    for(int i = 0; i<getVolunteers().size(); i++)
-    {
-        Volunteer* v = getVolunteers()[i];
-        if(v->flag() == "c" && v->canTakeOrder(order))
-        {
-            return *v;
-        }
-        
-    }
-    return *dv;
+    return *dv; //dv??
 }
 
 void WareHouse::removeUselessVolunteers()
@@ -195,51 +203,78 @@ void WareHouse::removeUselessVolunteers()
 
 void WareHouse::moveOrder(Order* order, OrderType from, OrderType to)
 {
-    Order* o = order;
-    if(from == OrderType::PENDING)
+    if (from == OrderType::PENDING)
     {
-        if(to == OrderType::INPROCESS)
-        {
-            vector<Order*> newVec = getInProcessOrders();
-            newVec.push_back(o);
-            removeOrder(o->getId(), OrderType::PENDING);
-        }
-        else if(to == OrderType::COMPLETED)
-        {
-            vector<Order*> newVec = getCompletedOrders();
-            newVec.push_back(o);
-            removeOrder(o->getId(), OrderType::PENDING);
-        }
+        inProcessOrders.push_back(order);
+        removeOrder(order->getId(), pendingOrders);
     }
-    else if(from == OrderType::INPROCESS)
+    else if (from == OrderType::INPROCESS)
     {
-        if(to == OrderType::COMPLETED)
+        if (to == OrderType::PENDING)
         {
-            vector<Order*> newVec = getCompletedOrders();
-            newVec.push_back(o);
-            removeOrder(o->getId(), OrderType::INPROCESS);
+            pendingOrders.push_back(order);
+            removeOrder(order->getId(), inProcessOrders);
+        }
+        else
+        {
+            completedOrders.push_back(order);
+            removeOrder(order->getId(), inProcessOrders);
         }
     }
-    else{
-        cout << "not valid 'move order'" << endl;
+    else
+    {
+        cout << "Move order from complete list..." << endl;
     }
+    // if (from == OrderType::PENDING)
+    // {
+    //     if (to == OrderType::INPROCESS)
+    //     {
+    //         inProcessOrders.push_back(order);
+    //         removeOrder(order->getId(), pendingOrders);
+    //     }
+    //     else if(to == OrderType::COMPLETED)
+    //     {
+    //         //vector<Order*> newVec = getCompletedOrders();
+    //         completedOrders.push_back(order);
+    //         removeOrder(order->getId(), pendingOrders);
+    //     }
+    // }
+    // else if(from == OrderType::INPROCESS)
+    // {
+    //     if(to == OrderType::COMPLETED)
+    //     {
+    //         vector<Order*> newVec = getCompletedOrders();
+    //         newVec.push_back(order);
+    //         removeOrder(order->getId(), inProcessOrders);
+    //     }
+    // }
+    // else{
+    //     cout << "not valid 'move order'" << endl;
+    // }
 }
 
 void WareHouse::addOrder(Order* order)
-{
-    pendingOrders.push_back(order);
-    ordersCounter++;
+{    
+    AddOrder* addOrder = new AddOrder(order->getCustomerId());
+    addOrder->act(*this);
+    if (addOrder->getStatus() == ActionStatus::COMPLETED)
+    {
+        pendingOrders.push_back(order);
+        ordersCounter++;
+    }
+    addAction(addOrder);
+    delete addOrder;
 }
 
 void WareHouse::addCustomer(Customer* customer)
-{
+{   
     customers.push_back(customer);
     customerCounter++;
 }
 
 void WareHouse::addAction(BaseAction* action)
 {
-
+    actionsLog.push_back(action);
 }
 
 Customer &WareHouse::getCustomer(int customerId) const
@@ -273,20 +308,20 @@ Order &WareHouse::getOrder(int orderId) const
     }
     for (int i = 0; i < inProcessOrders.size(); i++)
     {
-        if (pendingOrders[i]->getId() == orderId)
-            return *pendingOrders[i];
+        if (inProcessOrders[i]->getId() == orderId)
+            return *inProcessOrders[i];
     }
     for (int i = 0; i < completedOrders.size(); i++)
     {
-        if (pendingOrders[i]->getId() == orderId)
-            return *pendingOrders[i];
+        if (completedOrders[i]->getId() == orderId)
+            return *completedOrders[i];
     }    
     throw std::runtime_error("Order not found");
 }
 
 const vector<BaseAction*> &WareHouse::getActions() const
 {    
-    throw std::runtime_error("Actions not found");
+    return actionsLog;
 }
 
 void close()
@@ -343,30 +378,30 @@ int WareHouse::getVolunteerCounter() const
 }
 
 
-void WareHouse::removeOrder(int id, OrderType from)
+void WareHouse::removeOrder(int id, vector<Order*>& ordersToRemove)
 {
-    vector<Order*> vec;
-    if(from == OrderType::PENDING)
-    {
-        vec = getPendingOrders();
-    }
-    else if(from == OrderType::INPROCESS)
-    {
-        vec = getInProcessOrders();
-    }
-    else
-    {
-        vec = getCompletedOrders();
-    }
+    // vector<Order*> vec;
+    // if(from == OrderType::PENDING)
+    // {
+    //     vec = getPendingOrders();
+    // }
+    // else if(from == OrderType::INPROCESS)
+    // {
+    //     vec = getInProcessOrders();
+    // }
+    // else
+    // {
+    //     vec = getCompletedOrders();
+    // }
     
-    bool stop = false;
-    for(std::vector<Order*>::iterator itr = vec.begin(); stop && itr != vec.end(); ++itr)
+    for(vector<Order*>::iterator itr = ordersToRemove.begin(); ordersToRemove.size() > 0 && itr != ordersToRemove.end(); )
     {
         if((*itr)->getId() == id)
         {
-            vec.erase(itr);
-            stop = true;
-        }    
+            ordersToRemove.erase(itr);
+        }
+        else 
+            itr++;    
     }
 }
 

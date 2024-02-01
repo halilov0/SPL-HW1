@@ -14,7 +14,7 @@ void Close::act(WareHouse &wareHouse)
         {
             int orderId = wareHouse.getCustomer(customerId).getOrdersIds()[i];
             string orderStatus = wareHouse.getOrder(orderId).getStatusString();
-            std::cout << "OrderID: " + orderId << "CustomerID: " + customerId << "OrderStatus: " + orderStatus << std::endl;
+            std::cout << "OrderID: " << orderId << "CustomerID: " << customerId << "OrderStatus: " << orderStatus << std::endl;
         }
     }
 }
