@@ -13,6 +13,7 @@ void PrintOrderStatus::act(WareHouse &wareHouse)
         std::cout << wareHouse.getOrder(orderId).toString() << std::endl;
     else
         error("Order doesn't exist");
+    wareHouse.addAction(this);
 }
 
 PrintOrderStatus *PrintOrderStatus::clone() const
@@ -51,6 +52,7 @@ void PrintCustomerStatus::act(WareHouse &wareHouse)
         std::cout << "OrderStatus: " << orderStatus << std::endl;
     }
     std::cout << "numOrdersLeft: " << wareHouse.getCustomer(customerId).getMaxOrders() - wareHouse.getCustomer(customerId).getNumOrders() << std::endl;
+    wareHouse.addAction(this);
 }
 
 PrintCustomerStatus *PrintCustomerStatus::clone() const
@@ -80,6 +82,7 @@ void PrintVolunteerStatus::act(WareHouse &wareHouse)
         return;
     }
     std::cout << wareHouse.getVolunteer(VolunteerId).toString() << std::endl;
+    wareHouse.addAction(this);
 }
 
 PrintVolunteerStatus *PrintVolunteerStatus::clone() const
@@ -101,6 +104,7 @@ void PrintActionsLog::act(WareHouse &wareHouse)
 	{
 		std::cout << wareHouse.getActions()[i]->toString() << std::endl;
 	}
+    wareHouse.addAction(this);
 }
 
 PrintActionsLog *PrintActionsLog::clone() const

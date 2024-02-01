@@ -14,9 +14,11 @@ void Close::act(WareHouse &wareHouse)
         {
             int orderId = wareHouse.getCustomer(customerId).getOrdersIds()[i];
             string orderStatus = wareHouse.getOrder(orderId).getStatusString();
-            std::cout << "OrderID: " << orderId << "CustomerID: " << customerId << "OrderStatus: " << orderStatus << std::endl;
+            std::cout << "OrderID: " << orderId << " CustomerID: " << customerId << " OrderStatus: " << orderStatus << std::endl;
         }
     }
+    wareHouse.addAction(this);
+    wareHouse.close();
 }
 Close *Close::clone() const {
     return new Close(*this);
@@ -32,6 +34,7 @@ BackupWareHouse::BackupWareHouse() {}
 void BackupWareHouse::act(WareHouse &wareHouse)
 {
     backup = new WareHouse(wareHouse);
+    wareHouse.addAction(this);
 }
 
 BackupWareHouse *BackupWareHouse::clone() const {
@@ -56,6 +59,7 @@ void RestoreWareHouse::act(WareHouse &wareHouse) {
         error("No backup available");
     else
         wareHouse = (*backup);
+    wareHouse.addAction(this);
 }
 RestoreWareHouse *RestoreWareHouse::clone() const {
     return new RestoreWareHouse(*this);
