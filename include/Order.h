@@ -30,6 +30,8 @@ class Order {
         const string toString() const;
         string getStatusString() const;
 
+        virtual Order* clone() const;
+        
     private:
         const int id;
         const int customerId;

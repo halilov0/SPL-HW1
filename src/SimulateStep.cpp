@@ -21,7 +21,6 @@ void SimulateStep::act(WareHouse &wareHouse)
            if(Collector.getId() != NO_ORDER)
            {
                 Collector.acceptOrder(*o);
-                //Collector.step();
                 o->setCollectorId(Collector.getId());
                 o->setStatus(OrderStatus::COLLECTING);
                 wareHouse.moveOrder(o, OrderType::PENDING, OrderType::INPROCESS);
@@ -29,7 +28,7 @@ void SimulateStep::act(WareHouse &wareHouse)
         }            
         
         // checks if order is waiting to be delivered
-        if(o->getStatus() == OrderStatus::COLLECTING)     
+        else if(o->getStatus() == OrderStatus::COLLECTING)     
         {
             // checking if there is free driver
             Volunteer& Driver =  wareHouse.getNotBusyDriver(*o);

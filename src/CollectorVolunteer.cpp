@@ -70,7 +70,7 @@ string CollectorVolunteer::flag() const
 
 // Limited Collector Volunteer
 
-LimitedCollectorVolunteer::LimitedCollectorVolunteer(int id, const string &name, int coolDown ,int MaxOrders) : CollectorVolunteer(id, name, coolDown), maxOrders(MaxOrders) {}
+LimitedCollectorVolunteer::LimitedCollectorVolunteer(int id, const string &name, int coolDown ,int MaxOrders) : CollectorVolunteer(id, name, coolDown), maxOrders(MaxOrders), ordersLeft(maxOrders) {}
 
 LimitedCollectorVolunteer *LimitedCollectorVolunteer::clone() const
 {

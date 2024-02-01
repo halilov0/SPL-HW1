@@ -71,5 +71,9 @@ string Order::getStatusString() const
     return "Completed";
 }
 
+Order* Order::clone() const{
+    return new Order(*this);
+}
+
 
 
