@@ -36,7 +36,6 @@ void SimulateStep::act(WareHouse &wareHouse)
             if(Driver.getId() != NO_ORDER)
             {
                 Driver.acceptOrder(*o);
-              //  Driver.step();
                 o->setDriverId(Driver.getId());
                 o->setStatus(OrderStatus::DELIVERING);
                 wareHouse.moveOrder(o, OrderType::PENDING, OrderType::INPROCESS);
@@ -48,15 +47,16 @@ void SimulateStep::act(WareHouse &wareHouse)
     {
         Order* o = wareHouse.getInProcessOrders()[i];
         int id;
-        if(o->getCollectorId() == NO_VOLUNTEER)
-            id = o->getDriverId();
-        else if (o->getDriverId() == NO_VOLUNTEER)
+        if(o->getStatus() == OrderStatus::COLLECTING)
+            id = o->getCollectorId();        
+        else if (o->getStatus() == OrderStatus::DELIVERING)
         {
-            id = o->getCollectorId();
+            id = o->getDriverId();
         }
         Volunteer& v = wareHouse.getVolunteer(id);
         v.step();
-        // volunteer finished
+        
+        // checke if volunteer finished
         if(!v.isBusy())
         {
             // push the order to the right list

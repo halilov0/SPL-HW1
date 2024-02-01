@@ -3,6 +3,7 @@
 #include <iostream>
 #include "WareHouse.h"
 
+extern WareHouse* backup;
 
 Close::Close() {}
 void Close::act(WareHouse &wareHouse) 
@@ -17,20 +18,25 @@ void Close::act(WareHouse &wareHouse)
         }
     }
 }
-Close *Close::clone() const {}
+Close *Close::clone() const {
+    return new Close(*this);
+}
 string Close::toString() const 
 {
     return "close " + getActionStatusString();
 }
 
 
+
 BackupWareHouse::BackupWareHouse() {}
 void BackupWareHouse::act(WareHouse &wareHouse)
 {
-    //wareHouse.
+    backup = new WareHouse(wareHouse);
 }
 
-BackupWareHouse *BackupWareHouse::clone() const {}
+BackupWareHouse *BackupWareHouse::clone() const {
+    return new BackupWareHouse(*this);
+}
 string BackupWareHouse::toString() const
 {
     string s;
@@ -45,8 +51,15 @@ string BackupWareHouse::toString() const
 
 
 RestoreWareHouse::RestoreWareHouse() {}
-void RestoreWareHouse::act(WareHouse &wareHouse) {}
-RestoreWareHouse *RestoreWareHouse::clone() const {}
+void RestoreWareHouse::act(WareHouse &wareHouse) {
+    if(backup == nullptr)
+        error("No backup available");
+    else
+        wareHouse = (*backup);
+}
+RestoreWareHouse *RestoreWareHouse::clone() const {
+    return new RestoreWareHouse(*this);
+}
 string RestoreWareHouse::toString() const 
 {
     string s;
