@@ -71,7 +71,7 @@ string DriverVolunteer::flag() const
 // Limited Driver Volunteer
 
 LimitedDriverVolunteer::LimitedDriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep, int MaxOrders) : 
-DriverVolunteer(id, name, MaxDistance, DistancePerStep), maxOrders(MaxOrders) {}
+DriverVolunteer(id, name, MaxDistance, DistancePerStep), maxOrders(MaxOrders), ordersLeft(maxOrders) {}
 
 LimitedDriverVolunteer *LimitedDriverVolunteer::clone() const
 {

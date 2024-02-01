@@ -51,8 +51,8 @@ class WareHouse {
         WareHouse(const WareHouse& other);
         ~WareHouse();       
         void operator=(const WareHouse& other);
-        WareHouse(WareHouse&& other);
-        void operator=(WareHouse&& other);
+        WareHouse(WareHouse&& other) noexcept;
+        void operator=(WareHouse&& other) noexcept;
         
     private:
         bool isOpen;

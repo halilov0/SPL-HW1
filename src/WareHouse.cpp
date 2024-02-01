@@ -183,12 +183,12 @@ void WareHouse::removeUselessVolunteers()
 {
     vector<Volunteer*> vec = getVolunteers();
     
-    for(vector<Volunteer*>::iterator itr = vec.begin(); itr != vec.end(); itr++)
+    for(int i = 0; i < vec.size(); i++)
     {
-        if(!(*itr)->hasOrdersLeft())
+        if(!(vec[i])->hasOrdersLeft())
         {
-            vec.erase(itr);
-            delete *itr;
+            delete vec[i];
+            vec.erase(vec.begin() + i);
         }    
     }
 }
@@ -359,11 +359,13 @@ void WareHouse::removeOrder(int id, OrderType from)
         vec = getCompletedOrders();
     }
     
-    for(std::vector<Order*>::iterator itr = vec.begin(); itr != vec.end(); ++itr)
+    bool stop = false;
+    for(std::vector<Order*>::iterator itr = vec.begin(); stop && itr != vec.end(); ++itr)
     {
         if((*itr)->getId() == id)
         {
             vec.erase(itr);
+            stop = true;
         }    
     }
 }
@@ -489,7 +491,7 @@ WareHouse::WareHouse(WareHouse&& other) noexcept : isOpen(other.isOpen), custome
     other.nullCCustomer = nullptr;   
 }
 
-void WareHouse::operator=(WareHouse&& other)
+void WareHouse::operator=(WareHouse&& other) noexcept
 {
     if(this != &other)
     {
