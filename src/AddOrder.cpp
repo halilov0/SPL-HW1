@@ -13,10 +13,10 @@ void AddOrder::act(WareHouse &wareHouse)
     if(customer.getId() != NO_CUSTOMER && customer.canMakeOrder())
     {
         complete();
-        wareHouse.addAction(this);
     }
     else 
-        error("Cannot place this order");        
+        error("Cannot place this order"); 
+    wareHouse.addAction(this);       
 }
 
 string AddOrder::toString() const

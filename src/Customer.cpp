@@ -32,6 +32,11 @@ int Customer::getNumOrders() const
 
 bool Customer::canMakeOrder() const
 {
+    return maxOrders > ordersId.size();
+}
+
+bool Customer::canReallyMakeOrder() const
+{
     return maxOrders >= ordersId.size();
 }
 
