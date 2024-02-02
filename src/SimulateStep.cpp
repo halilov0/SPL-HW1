@@ -27,6 +27,9 @@ void SimulateStep::act(WareHouse &wareHouse)
                 wareHouse.moveOrder(order, OrderType::PENDING, OrderType::INPROCESS);
                 moved = true;
             }
+            // מה קורה אם אין מתנדב פנוי? זזים או לא?
+            else
+                moved = false;
         }
         else if (order->getStatus() == OrderStatus::COLLECTING)
         {
@@ -40,6 +43,8 @@ void SimulateStep::act(WareHouse &wareHouse)
                 wareHouse.moveOrder(order, OrderType::PENDING, OrderType::INPROCESS);
                 moved = true;
             }
+            else
+                moved = false;
         }
         else
             moved = false;
