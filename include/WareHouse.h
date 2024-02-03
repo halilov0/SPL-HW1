@@ -1,7 +1,6 @@
 #pragma once
 #include <string>
 #include <vector>
-
 #include "Order.h"
 #include "Customer.h"
 
@@ -13,6 +12,8 @@ enum class OrderType {
     INPROCESS,
     COMPLETED
 };
+
+#define NULL_OBJECT -1
 
 //Warehouse responsible for Volunteers, Customers Actions, and Orders.
 class WareHouse {
@@ -49,9 +50,9 @@ class WareHouse {
         // rule of 5
         WareHouse(const WareHouse& other);
         ~WareHouse();       
-        void operator=(const WareHouse& other);
+        WareHouse& operator=(const WareHouse& other);
         WareHouse(WareHouse&& other) noexcept;
-        void operator=(WareHouse&& other) noexcept;
+        WareHouse& operator=(WareHouse&& other) noexcept;
         
     private:
         bool isOpen;
@@ -64,8 +65,7 @@ class WareHouse {
         int customerCounter; //For assigning unique customer IDs
         int volunteerCounter; //For assigning unique volunteer IDs
         int ordersCounter;
-        Volunteer* dv; // default 
-        Volunteer* cv; // default
-        Customer* nullSCustomer;
-        Customer* nullCCustomer;
+        Volunteer* nullV; // fake volunteer  
+        Customer* nullC; // fake customer
+        Order* nullO; // fake order
 };

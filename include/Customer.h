@@ -4,8 +4,6 @@
 using std::string;
 using std::vector;
 
-#define NO_CUSTOMER -1
-
 class Customer {
     public:
         Customer(int id, const string &name, int locationDistance, int maxOrders);
@@ -19,7 +17,8 @@ class Customer {
         int addOrder(int orderId); //return OrderId if order was added successfully, -1 otherwise
 
         virtual Customer *clone() const = 0; // Return a copy of the customer
-        
+        virtual ~Customer() = default;
+
     private:
         const int id;
         const string name;

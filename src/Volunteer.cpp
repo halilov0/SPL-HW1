@@ -1,7 +1,6 @@
-#pragma once
 #include "Volunteer.h"
 
-Volunteer::Volunteer(int Id, const string &Name) : id(Id), name(Name), activeOrderId(NO_ORDER), completedOrderId(NO_ORDER){}
+Volunteer::Volunteer(int Id, const string &Name) : completedOrderId(NO_ORDER), activeOrderId(NO_ORDER), id(Id), name(Name) {}
 
 int Volunteer::getId() const
 {

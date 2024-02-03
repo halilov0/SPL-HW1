@@ -1,9 +1,7 @@
-#pragma once
 #include "Customer.h"
 
-
 Customer::Customer(int Id, const string &Name, int LocationDistance, int MaxOrders) : id(Id), name(Name), 
-locationDistance(LocationDistance), maxOrders(MaxOrders) {}
+locationDistance(LocationDistance), maxOrders(MaxOrders), ordersId() {}
 
 const string& Customer::getName() const
 {
@@ -32,7 +30,7 @@ int Customer::getNumOrders() const
 
 bool Customer::canMakeOrder() const
 {
-    return maxOrders > ordersId.size();
+    return maxOrders > (int)ordersId.size();
 }
 
 const vector<int>& Customer::getOrdersIds() const
@@ -51,7 +49,6 @@ int Customer::addOrder(int orderId)
 }
 
 
-
 SoldierCustomer::SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders) :
 Customer(id, name, locationDistance, maxOrders) {}
 
@@ -59,7 +56,6 @@ SoldierCustomer* SoldierCustomer::clone() const
 {
     return new SoldierCustomer(*this);
 }
-
 
 
 CivilianCustomer::CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders) :

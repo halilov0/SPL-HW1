@@ -1,9 +1,8 @@
-#pragma once
 #include "Action.h"
 #include <iostream>
 using namespace std;
 
-BaseAction::BaseAction() {}
+BaseAction::BaseAction() : errorMsg(""), status(ActionStatus::ERROR) {}
 
 ActionStatus BaseAction::getStatus() const
 {
@@ -19,7 +18,7 @@ void BaseAction::error(string errorMsg)
 {
     status = ActionStatus::ERROR;
     this->errorMsg = errorMsg;
-    cout << "ERROR: " + errorMsg << endl;
+    cout << "ERROR: " + errorMsg << endl; 
 }
 
 string BaseAction::getErrorMsg() const

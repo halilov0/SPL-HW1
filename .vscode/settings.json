@@ -53,10 +53,10 @@
             "binaryArgs": []
         },
         {
-            "cwd": "/home/users/bsc/halilovi/Projects/SPL HW1",
-            "binaryPath": "/home/users/bsc/halilovi/Projects/SPL HW1/bin/hello",
+            "cwd": "/home/users/bsc/ossy/CPP/SPL-HW1",
+            "binaryPath": "/home/users/bsc/ossy/CPP/SPL-HW1/bin/hello",
             "binaryArgs": [
-                "/home/users/bsc/halilovi/Projects/SPL"
+                "/home/users/bsc/ossy/CPP/SPL-HW1"
             ]
         }
     ]

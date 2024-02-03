@@ -1,5 +1,4 @@
 #pragma once
-
 #include <string>
 #include <vector>
 using std::string;
@@ -30,7 +29,7 @@ class Order {
         const string toString() const;
         string getStatusString() const;
 
-        virtual Order* clone() const;
+        Order* clone() const;
         
     private:
         const int id;

@@ -1,4 +1,3 @@
-#pragma once
 #include "Action.h"
 #include <iostream>
 #include "WareHouse.h"
@@ -28,7 +27,7 @@ void AddCustomer::act(WareHouse &wareHouse)
 
 string AddCustomer::toString() const
 {
-    return "customer " + customerName + " " + getString(customerType) + " " + std::to_string(distance) + " " + std::to_string(maxOrders) + " " + getActionStatusString();
+    return "customer " + customerName + " " + getString(customerType) + " " + to_string(distance) + " " + to_string(maxOrders) + " " + getActionStatusString();
 }
 
 AddCustomer *AddCustomer::clone() const
