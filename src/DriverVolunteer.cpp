@@ -1,9 +1,8 @@
-#pragma once
 #include "Volunteer.h"
 
 
 DriverVolunteer::DriverVolunteer(int id, const string &name, int MaxDistance, int DistancePerStep) : 
-Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep) {}
+Volunteer(id, name), maxDistance(MaxDistance), distancePerStep(DistancePerStep), distanceLeft(maxDistance) {}
 
 DriverVolunteer* DriverVolunteer::clone() const
 {
@@ -57,8 +56,8 @@ string DriverVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
              + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
-             + "OrderId: " + std::to_string(activeOrderId) + "\n"
-             + "Time Left: " + std::to_string(distanceLeft) + "\n" //Yes, it is *Time Left* (according to the pdf)
+             + "OrderId: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(activeOrderId)) + "\n"
+             + "Time Left: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(distanceLeft)) + "\n" //Yes, it is *Time Left* (according to the pdf)
              + "OrdersLeft: " + "No Limit"; 
     return a;
 }
@@ -103,7 +102,7 @@ string LimitedDriverVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
              + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
-             + "OrderId: " + std::to_string(activeOrderId) + "\n"
-             + "Time Left: " + std::to_string(getDistanceLeft()) + "\n" //Yes, it is *Time Left* (according to the pdf)
+             + "OrderId: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(activeOrderId)) + "\n"
+             + "Time Left: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(getDistanceLeft())) + "\n" //Yes, it is *Time Left* (according to the pdf)
              + "OrdersLeft: " + std::to_string(ordersLeft); 
     return a;}

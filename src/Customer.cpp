@@ -1,9 +1,7 @@
-#pragma once
 #include "Customer.h"
 
-
 Customer::Customer(int Id, const string &Name, int LocationDistance, int MaxOrders) : id(Id), name(Name), 
-locationDistance(LocationDistance), maxOrders(MaxOrders) {}
+locationDistance(LocationDistance), maxOrders(MaxOrders), ordersId() {}
 
 const string& Customer::getName() const
 {
@@ -32,12 +30,12 @@ int Customer::getNumOrders() const
 
 bool Customer::canMakeOrder() const
 {
-    return maxOrders > ordersId.size();
+    return maxOrders > (int)ordersId.size();
 }
 
 bool Customer::canReallyMakeOrder() const
 {
-    return maxOrders >= ordersId.size();
+    return maxOrders >= (int)(ordersId.size());
 }
 
 const vector<int>& Customer::getOrdersIds() const

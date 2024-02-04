@@ -1,4 +1,3 @@
-#pragma once
 #include "Volunteer.h"
 
 // Unlimited Collector Volunteer
@@ -33,7 +32,7 @@ int CollectorVolunteer::getTimeLeft() const
 bool CollectorVolunteer::decreaseCoolDown()
 {
     timeLeft--;
-    return timeLeft == 0;
+    return timeLeft <= 0;
 }
 
 bool CollectorVolunteer::hasOrdersLeft() const
@@ -56,8 +55,8 @@ string CollectorVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
              + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
-             + "OrderId: " + std::to_string(activeOrderId) + "\n"
-             + "Time Left: " + std::to_string(timeLeft) + "\n"
+             + "OrderId: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(activeOrderId)) + "\n"
+             + "Time Left: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(timeLeft)) + "\n"
              + "OrdersLeft: " + "No Limit";
 
     return a;
@@ -108,8 +107,8 @@ string LimitedCollectorVolunteer::toString() const
 {
     string a = "VolunteerID: " + std::to_string(getId()) + "\n"
              + "isBusy: " + (isBusy() ? "True" : "False") + "\n"
-             + "OrderId: " + std::to_string(activeOrderId) + "\n"
-             + "Time Left: " + std::to_string(getTimeLeft()) + "\n"
+             + "OrderId: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(activeOrderId)) + "\n"
+             + "Time Left: " + (activeOrderId == NO_ORDER ? "None" : std::to_string(getTimeLeft())) + "\n"
              + "OrdersLeft: " + std::to_string(ordersLeft);
 
     return a;     

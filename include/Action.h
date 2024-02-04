@@ -15,7 +15,8 @@ enum class CustomerType{
 };
 
 
-class BaseAction{
+class BaseAction
+{
     public:
         BaseAction();
         ActionStatus getStatus() const;
@@ -23,7 +24,8 @@ class BaseAction{
         virtual string toString() const=0;
         virtual BaseAction* clone() const=0;        
         string getActionStatusString() const;
-
+        virtual ~BaseAction() = default;
+        
     protected:
         void complete();
         void error(string errorMsg);
