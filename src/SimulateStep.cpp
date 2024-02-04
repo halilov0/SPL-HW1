@@ -109,6 +109,3 @@ SimulateStep* SimulateStep::clone() const
 {
     return new SimulateStep(*this);
 }
-
-
-

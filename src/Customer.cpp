@@ -33,11 +33,6 @@ bool Customer::canMakeOrder() const
     return maxOrders > (int)ordersId.size();
 }
 
-bool Customer::canReallyMakeOrder() const
-{
-    return maxOrders >= (int)(ordersId.size());
-}
-
 const vector<int>& Customer::getOrdersIds() const
 {
     return ordersId;
@@ -54,7 +49,6 @@ int Customer::addOrder(int orderId)
 }
 
 
-
 SoldierCustomer::SoldierCustomer(int id, const string &name, int locationDistance, int maxOrders) :
 Customer(id, name, locationDistance, maxOrders) {}
 
@@ -62,7 +56,6 @@ SoldierCustomer* SoldierCustomer::clone() const
 {
     return new SoldierCustomer(*this);
 }
-
 
 
 CivilianCustomer::CivilianCustomer(int id, const string &name, int locationDistance, int maxOrders) :
